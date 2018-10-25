@@ -1,4 +1,5 @@
 import numpy as np
+from random import randint
 
 def make_corpus(path):
     file = open(path, encoding='utf8').read()
@@ -41,4 +42,16 @@ def generate_tyyp_ozlu():
 
     return ozlu_soz
 
+def generate_tyyp_siir(line=30):
+    corpus    = make_corpus('tyyp_siir.txt')
+    pairs     = make_pairs(corpus) 
+    word_dict = make_word_dict(pairs)
+
+    siir = [generate(corpus, word_dict, randint(2, 7)) for _ in range(line)]
+
+    return '\n'.join(siir)
+
+
 print(generate_tyyp_ozlu())
+print("\n\n-------------------\n\n")
+print(generate_tyyp_siir(20))
