@@ -51,7 +51,18 @@ def generate_tyyp_siir(line=30):
 
     return '\n'.join(siir)
 
+def generate_qoran(line=30):
+    corpus  = make_corpus('qoran.txt')
+    pairs   = make_pairs(corpus)
+    word_dict  = make_word_dict(pairs)
+    
+    sure =[generate(corpus, word_dict, randint(2,7)) for _ in range(line)]
+
+    return '\n'.join(sure)
 
 print(generate_tyyp_ozlu())
 print("\n\n-------------------\n\n")
-print(generate_tyyp_siir(20))
+print(generate_tyyp_siir(1))
+print("\n\n-------------------\n\n")
+
+print(generate_qoran())
