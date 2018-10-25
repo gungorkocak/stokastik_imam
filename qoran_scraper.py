@@ -1,5 +1,6 @@
 from pyquery import PyQuery as pq
 import re
+from codecs import open
 
 sure_links = [
   "http://www.kuranikerimmeali.com/alak-suresi.html", 
@@ -129,7 +130,7 @@ def generate_qoran():
   return ' '.join(sures)
 
 def dump_qoran(sures):
-  with open('qoran.txt', 'w') as qoran:
+  with open('qoran.txt', 'w', 'utf-8') as qoran:
     qoran.write(sures)
 
 
