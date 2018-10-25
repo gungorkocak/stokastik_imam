@@ -1,5 +1,7 @@
 import numpy as np
 from random import randint
+from os import system
+from time import sleep
 
 def make_corpus(path):
     file = open(path, encoding='utf8').read()
@@ -51,18 +53,29 @@ def generate_tyyp_siir(line=30):
 
     return '\n'.join(siir)
 
-def generate_qoran(line=30):
-    corpus  = make_corpus('qoran.txt')
-    pairs   = make_pairs(corpus)
+def generate_sure(line):
+    corpus     = make_corpus('qoran.txt')
+    pairs      = make_pairs(corpus)
     word_dict  = make_word_dict(pairs)
     
-    sure =[generate(corpus, word_dict, randint(2,7)) for _ in range(line)]
+    sure = [generate(corpus, word_dict, randint(2,7)) for _ in range(line)]
+
+    return ['Bismillahirrahmanirrahim!'] + sure
+
+def generate_qoran(line=30):
+    sure = generate_sure(line)
 
     return '\n'.join(sure)
 
+def hatim(sure, hafiz='Cem'):
+    for ayet in sure:
+        system('say -v {hafiz} "{ayet}"'.format(ayet=ayet, hafiz=hafiz))
+        sleep(1)
+
 print(generate_tyyp_ozlu())
 print("\n\n-------------------\n\n")
-print(generate_tyyp_siir(1))
+sure = generate_sure(20)
+print('\n'.join(sure))
 print("\n\n-------------------\n\n")
 
-print(generate_qoran())
+hatim(sure)
