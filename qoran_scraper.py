@@ -132,6 +132,5 @@ def dump_qoran(sures):
   with open('qoran.txt', mode='w', encoding='utf-8') as qoran:
     qoran.write(sures)
 
-
 sures = generate_qoran()
 dump_qoran(sures)
