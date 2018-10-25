@@ -1,33 +1,44 @@
 import numpy as np
 
-tyyp = open('tyyp_ozlu.txt', encoding='utf8').read()
+def make_corpus(path):
+    file = open(path, encoding='utf8').read()
+    return file.split()
 
-corpus = tyyp.split()
 
 def make_pairs(corpus):
     for i in range(len(corpus)-1):
         yield (corpus[i], corpus[i+1])
+
+def make_word_dict(pairs):
+    word_dict = {}
+
+    for word_1, word_2 in pairs:
+        if word_1 in word_dict.keys():
+            word_dict[word_1].append(word_2)
+        else:
+            word_dict[word_1] = [word_2]
+
+    return word_dict
         
-pairs = make_pairs(corpus)
-
-word_dict = {}
-
-for word_1, word_2 in pairs:
-    if word_1 in word_dict.keys():
-        word_dict[word_1].append(word_2)
-    else:
-        word_dict[word_1] = [word_2]
-
-
-first_word = np.random.choice(corpus)
-
-while first_word.islower():
+def generate(corpus, word_dict, amount=60):
     first_word = np.random.choice(corpus)
 
-chain = [first_word]
-n_words = 60
+    while first_word.islower():
+        first_word = np.random.choice(corpus)
 
-for i in range(n_words):
-    chain.append(np.random.choice(word_dict[chain[-1]]))
+    chain = [first_word]
 
-print(' '.join(chain))
+    for i in range(amount):
+        chain.append(np.random.choice(word_dict[chain[-1]]))
+
+    return ' '.join(chain)
+
+def generate_tyyp_ozlu():
+    corpus    = make_corpus('tyyp_ozlu.txt')
+    pairs     = make_pairs(corpus) 
+    word_dict = make_word_dict(pairs)
+    ozlu_soz  = generate(corpus, word_dict, 50)
+
+    return ozlu_soz
+
+print(generate_tyyp_ozlu())
